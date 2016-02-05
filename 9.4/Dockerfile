@@ -1,4 +1,4 @@
-FROM centos:centos7
+FROM openshift/base-centos7
 
 # PostgreSQL image for OpenShift.
 # Volumes:
@@ -36,8 +36,7 @@ RUN yum install -y centos-release-scl epel-release && \
 # Loosen permission bits to avoid problems running container with arbitrary UID
 ADD root /
 RUN /usr/libexec/fix-permissions /var/lib/pgsql && \
-    /usr/libexec/fix-permissions /var/run/postgresql && \
-    chmod -R 0700 /var/lib/pgsql
+    /usr/libexec/fix-permissions /var/run/postgresql
 
 # Get prefix path and path to scripts rather than hard-code them in scripts
 ENV CONTAINER_SCRIPTS_PATH=/usr/share/container-scripts/postgresql \
@@ -52,7 +51,7 @@ ENV BASH_ENV=${CONTAINER_SCRIPTS_PATH}/scl_enable \
 
 VOLUME ["/var/lib/pgsql/data"]
 
-USER 26
+USER 1001
 
 ENTRYPOINT ["container-entrypoint"]
 CMD ["run-postgresql"]
