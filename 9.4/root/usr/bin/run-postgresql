@@ -15,5 +15,6 @@ fi
 
 set_passwords
 
+chmod -R 700 /var/lib/pgsql/data
 unset_env_vars
 exec postgres "$@"
